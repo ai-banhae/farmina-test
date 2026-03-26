@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파미나 N·D 사료 추천</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=SUIT:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#F5993D;--primary-light:#FEF0E0;--primary-dark:#c97520;
+  --line:#E0DDD6;--dim:#9a9893;--sub:#6b6760;
+  --bg:#EFEFEF;--card:#fff;
+  --text:#1a1a18;
+  --bd:1px solid var(--line);
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:'Inter','SUIT',-apple-system,sans-serif;
+  background:#333333;
+  display:flex;justify-content:center;
+  padding:0;
+}
+.frame{
+  width:100%;max-width:480px;
+  background:var(--bg);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+}
+@media(min-width:520px){
+  body{padding:32px 16px 60px;align-items:flex-start;}
+  .frame{min-height:auto;border-radius:var(--r);overflow:hidden;}
+}
+@media(max-width:420px){
+  body{background:var(--bg);}
+}
+
+/* ── 푸터 ── */
+.site-footer{
+  text-align:center;padding:16px;
+  font-size:11px;color:var(--dim);
+}
+.site-footer a{
+  color:inherit;text-decoration:none;
+}
+.site-footer a:hover{text-decoration:underline;}
+
+/* ── 헤더 ── */
+.top-header{
+  background:var(--card);
+  padding:14px 18px 0;
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin-bottom:12px;}
+.brand-logo{
+  width:84px;height:84px;flex-shrink:0;
+}
+.brand-logo img{width:100%;height:100%;object-fit:contain;display:block;}
+.brand-text h1{font-size:15px;font-weight:700;color:var(--text);}
+.brand-text p{font-size:11px;color:var(--sub);margin-top:2px;}
+
+.tabs{
+  display:flex;gap:3px;
+  background:#EFEFEF;border-radius:8px;padding:3px;margin-bottom:10px;
+}
+.tab{
+  flex:1;padding:7px 0;font-size:13px;font-weight:600;
+  color:var(--dim);border:none;background:transparent;cursor:pointer;
+  border-radius:6px;transition:all .2s;font-family:inherit;
+}
+.tab.active{color:var(--text);background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.1);}
+
+/* ── 콘텐츠 ── */
+.content{padding:36px 16px 24px;flex:1;}
+
+/* ── 진행바 ── */
+.progress{display:flex;gap:5px;margin-bottom:20px;}
+.ps{flex:1;height:3px;border-radius:2px;background:var(--line);transition:background .3s;}
+.ps.on{background:var(--primary);}
+
+/* ── 질문 카드 ── */
+.qcard{
+  background:var(--card);border-radius:var(--r);
+  border:none;padding:22px 18px;margin-bottom:10px;
+}
+.qstep{font-size:10px;font-weight:800;color:var(--primary);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.qtitle{font-size:17px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:4px;}
+.qsub{font-size:13px;color:var(--sub);margin-bottom:18px;line-height:1.5;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{
+  display:flex;align-items:center;gap:14px;padding:13px 15px;
+  border:var(--bd);border-radius:var(--r);
+  background:var(--bg);cursor:pointer;text-align:left;
+  transition:all .15s;font-family:inherit;width:100%;
+}
+.opt:hover{border-color:var(--primary);background:var(--primary-light);}
+.opt:active{transform:scale(.99);}
+.oi{font-size:20px;flex-shrink:0;width:24px;text-align:center;}
+.ol{font-size:14px;font-weight:600;color:var(--text);}
+.od{font-size:12px;color:var(--sub);margin-top:2px;}
+
+/* ── 결과 헤드 ── */
+.rhead{
+  text-align:center;margin-bottom:18px;padding:20px 16px;
+  background:var(--card);border-radius:var(--r);border:var(--bd);
+}
+.rhead h2{font-size:17px;font-weight:700;color:var(--text);}
+.rhead p{font-size:12px;color:var(--sub);margin-top:4px;}
+
+/* ── 그룹 라벨 ── */
+.fgroup{margin-bottom:36px;}
+.glabel{
+  font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-block;padding:3px 9px;border-radius:5px;margin-bottom:8px;
+  background:#555;color:#EFEFEF;
+}
+
+/* ── 사료 카드 ── */
+.fcard{
+  background:var(--card);border-radius:var(--r);
+  border:var(--bd);overflow:hidden;margin-bottom:10px;
+  transition:all .15s;
+}
+.fcard.r1{border-color:var(--primary);box-shadow:0 0 0 2px rgba(245,153,61,.15);}
+.fcard:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.09);}
+
+.fcard-img{
+  width:100%;aspect-ratio:1/1;
+  background:#F2EFE8;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;border-bottom:var(--bd);
+}
+.fcard-img img{width:100%;height:100%;object-fit:cover;padding:0;}
+.rbadge{
+  position:absolute;top:10px;left:10px;
+  font-size:12px;font-weight:800;border-radius:5px;padding:3px 9px;z-index:2;
+}
+.rb1{background:var(--primary);color:#fff;}
+.rb2{background:rgba(30,30,30,.4);color:#fff;}
+
+.fcard-body{padding:14px 15px 22px;}
+.fname{font-size:16px;font-weight:800;color:var(--text);line-height:1.4;}
+.fname .sym{font-weight:300;}
+.fpct{font-size:13px;font-weight:500;color:var(--dim);margin-top:2px;}
+.fdesc{font-size:14px;color:var(--sub);margin-top:12px;line-height:1.6;}
+/* note 오버레이 — 이미지 위 슬라이드업 */
+.fcard-img .note-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top, rgba(0,0,0,.62) 0%, transparent 100%);
+  color:#fff;
+  font-size:15px;font-weight:600;
+  padding:28px 15px 10px;
+  transform:translateY(100%);
+  animation:slideUp .4s ease forwards;
+  pointer-events:none;
+}
+@keyframes slideUp{
+  0%{transform:translateY(100%);}
+  100%{transform:translateY(0);}
+}
+.fbadges{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;border:none;}
+.b-lid{background:#EBEBEB;color:#333;}
+.b-prem{background:linear-gradient(135deg,#5E89FF,#395299);color:#fff;}
+.b-val{background:#FFDD85;color:#7a5800;}
+.b-kibo{background:#F37A4E;color:#fff;}
+
+/* 구매 버튼 */
+.buy-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;margin-top:18px;padding:10px;
+  background:var(--primary);color:#fff;border:none;border-radius:8px;
+  font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all .15s;text-decoration:none;
+}
+.buy-btn:hover{background:var(--primary-dark);}
+
+/* ── 액션 버튼 ── */
+.action-row{display:flex;gap:8px;}
+.btn{
+  padding:12px;border-radius:var(--r);font-size:13px;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  border:none;
+}
+.btn-back{background:var(--bg);border:var(--bd);color:var(--sub);flex:1;}
+.btn-back:hover{border-color:var(--primary);color:var(--primary);}
+.btn-reset{background:var(--bg);border:var(--bd);color:var(--sub);flex:1;}
+.btn-reset:hover{border-color:var(--primary);color:var(--primary);}
+
+/* ── 알림 카드 ── */
+.notice-card{
+  background:var(--card);border-radius:var(--r);border:var(--bd);
+  padding:36px 22px;text-align:center;
+}
+.notice-card .ne{font-size:48px;margin-bottom:14px;}
+.notice-card .nt{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.5;}
+.notice-card .ns{font-size:13px;color:var(--sub);line-height:1.7;}
+
+/* ── 플로우차트 탭 ── */
+.flow-intro{
+  background:var(--card);border-radius:var(--r);border:var(--bd);
+  padding:14px 16px;margin-bottom:12px;
+}
+.flow-intro h2{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.flow-intro p{font-size:12px;color:var(--sub);line-height:1.6;}
+.flow-img-wrap{
+  background:var(--card);border-radius:var(--r);border:var(--bd);
+  overflow:hidden;cursor:zoom-in;position:relative;
+}
+.flow-img-wrap img{width:100%;height:auto;display:block;}
+.flow-img-placeholder{
+  width:100%;min-height:320px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:40px 20px;text-align:center;
+}
+.flow-img-placeholder .big{font-size:40px;}
+.flow-img-placeholder h3{font-size:14px;font-weight:700;color:var(--text);}
+.flow-img-placeholder p{font-size:12px;color:var(--sub);line-height:1.6;}
+.flow-img-placeholder code{font-size:11px;background:#e8e5de;padding:3px 9px;border-radius:5px;color:var(--sub);font-family:monospace;}
+.flow-zoom-hint{
+  position:absolute;bottom:10px;right:10px;
+  background:rgba(0,0,0,.45);color:#fff;border-radius:6px;
+  font-size:11px;font-weight:600;padding:4px 9px;pointer-events:none;
+}
+
+/* ── 라이트박스 ── */
+.lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox img{max-width:100%;max-height:92vh;border-radius:10px;object-fit:contain;}
+.lb-close{
+  position:fixed;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:none;color:#fff;
+  font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="top-header">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="./images/farmina-logo.png" alt="Farmina" onerror="this.style.display='none'">
+      </div>
+      <div class="brand-text">
+        <h1>Farmina N&D 사료 추천</h1>
+        <p>우리 아이에게 딱 맞는 사료를 찾아드려요</p>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('quiz')" id="tab-quiz">맞춤 추천</button>
+      <button class="tab" onclick="switchTab('flow')" id="tab-flow">전체 가이드</button>
+    </div>
+  </div>
+
+  <div id="section-quiz" class="content">
+    <div class="progress" id="prog"></div>
+    <div id="quiz"></div>
+    <div id="result" class="hidden"></div>
+  </div>
+
+  <div id="section-flow" class="content hidden">
+    <div class="flow-intro">
+      <h2>🗺️ 파미나 사료 선택 가이드</h2>
+      <p>전체 추천 흐름을 한눈에 확인하세요. 이미지를 탭하면 크게 볼 수 있어요.</p>
+    </div>
+    <div class="flow-img-wrap" onclick="openLightbox()">
+      <img src="./images/flowchart.png" alt="파미나 사료 선택 가이드"
+           onerror="this.style.display='none';document.getElementById('flow-ph').style.display='flex'">
+      <div id="flow-ph" class="flow-img-placeholder" style="display:none">
+        <div class="big">🗺️</div>
+        <h3>플로우차트 이미지를 넣어주세요</h3>
+        <p><code>images/flowchart.png</code> 파일을 추가하면 여기에 표시돼요</p>
+      </div>
+      <div class="flow-zoom-hint">🔍 탭하여 크게 보기</div>
+    </div>
+  </div>
+
+<footer class="site-footer">
+  <a href="https://mkt.shopping.naver.com/link/683d586f881c5b310ec4a740?nt_source=farmina.test&nt_medium=footer" target="_blank" rel="noopener">© banhae</a>
+</footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close">✕</button>
+  <img id="lb-img" src="" alt="파미나 사료 가이드">
+</div>
+
+<script>
+const F = {
+  cheong:{name:'[오션] 청어&오렌지',pct:'동물성 단백질&지방 90% 이상',desc:'파미나 라인 중 육류 함량 최고. 청어 LID 레시피.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/ocean-herring.png',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
+  daegu:{name:'[오션] 대구&오렌지',pct:'동물성 단백질&지방 60% 이상',desc:'EPA+DHA 파미나 중 가장 풍부. 대구 LID 레시피로 피부 재생에 실질적 도움.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/ocean-cod.png',link:'https://mkt.shopping.naver.com/link/6847978e6e038273ac2dcfc0?nt_source=farmina.test&nt_medium=result'},
+  metdwaeji:{name:'[펌프킨] 멧돼지&사과',pct:'동물성 단백질&지방 60% 이상',desc:'흔하지 않은 멧돼지 단백질로 기호성 최강. 멧돼지 LID 레시피.',badges:['lid','kibo'],lidTxt:'LID 🔍',kiboTxt:'기호성 🤍',img:'./images/pumkin-boar.png',link:'https://mkt.shopping.naver.com/link/6847978e9afe2543220139da?nt_source=farmina.test&nt_medium=result'},
+  dak:{name:'[펌프킨] 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'가장 무난하고 소화하기 쉬운 레시피.',badges:[],img:'./images/pumkin-chicken.png',link:'https://mkt.shopping.naver.com/link/6847978e9a061e3f9ceff30a?nt_source=farmina.test&nt_medium=result'},
+  guiri:{name:'[엔세스트럴] 원시곡물 귀리 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'원시곡물 귀리+스펠트 함유. 파미나 중 섬유질 최고. 소화 능력 저하된 시니어에 적극 추천.',badges:['lid','val'],lidTxt:'LID 🔍',valTxt:'가성비 💰',img:'./images/grain-chicken.png',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
+  skin:{name:'[퀴노아] 스킨&코트 오리',pct:'동물성 단백질&지방 60% 이상',desc:'오리 LID 레시피. 피부·모질 건강 특화. 체중&알러지 관리에도 적합.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/quinoa-duck.png',link:'https://mkt.shopping.naver.com/link/69a69652c8cd214c071e5ceb?nt_source=farmina.test&nt_medium=result'},
+  white:{name:'[화이트] 청어&스피룰리나',pct:'',desc:'FVR 연구소 최신 레시피. 눈물자국 개선에 실질적 효과. LID 레시피.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/white-seabass.png',link:'https://mkt.shopping.naver.com/link/68410e5e8569a81f0d6d8a90?nt_source=farmina.test&nt_medium=result'},
+  tp_pig:{name:'[트로피컬] 돼지&열대과일',pct:'',desc:'과일·곡물로 섬유질 풍부. 소화 건강에 도움.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-pig.png',link:'https://mkt.shopping.naver.com/link/68410e5fe625370ec15b2dd1?nt_source=farmina.test&nt_medium=result'},
+  tp_sal:{name:'[트로피컬] 연어&열대과일',pct:'',desc:'섬유질+오메가3 풍부. 소화·피부 동시 케어.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-salmon.png',link:'https://mkt.shopping.naver.com/link/68410e5fb7c8c573b305e5c2?nt_source=farmina.test&nt_medium=result'},
+  newterd:{name:'[퀴노아] 뉴터드 오리',pct:'동물성 단백질&지방 60% 이상',desc:'일반식 중 최저 칼로리(3,444kcal/kg). 체중 관리 베스트 픽.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/quinoa-neutered.png',link:'https://mkt.shopping.naver.com/link/68410e5fd20fbf73c9d5c930?nt_source=farmina.test&nt_medium=result'},
+};
+
+const STEPS = {
+  start:{step:'STEP 1',title:'퍼피인가요?',sub:'생후 12개월 미만이면 퍼피예요',opts:[
+    {icon:'🐶',label:'네, 퍼피예요',desc:'생후 12개월 미만',next:'puppy_weight'},
+    {icon:'🐕',label:'아니오, 어덜트예요',desc:'생후 12개월 이상',next:'adult_senior'},
+  ]},
+  puppy_weight:{step:'STEP 2',title:'현재 체중이 어떻게 되나요?',sub:'파미나 퍼피 라인은 15kg 이하에게 적합해요',opts:[
+    {icon:'⬇️',label:'15kg 이하예요',desc:'파미나 퍼피 라인 급여 가능',next:'puppy_age'},
+    {icon:'⬆️',label:'15kg 초과예요',desc:'대형견 퍼피',result:{notice:true}},
+  ]},
+  puppy_age:{step:'STEP 3',title:'생후 몇 개월인가요?',sub:'개월수에 따라 급여 가능한 사료가 달라져요',opts:[
+    {icon:'🌱',label:'8개월 미만',result:{label:'퍼피 · 성장기 고민',sub:'쑥쑥 자라나는 우리 아이를 위한 맞춤 영양',groups:[{label:'추천 사료',cls:'gl-main',items:[{f:'cheong',r:1,note:'퍼피 첫 급여 · 육류 함량 최고'}]}]}},
+    {icon:'🌿',label:'8개월 이상',desc:'12개월 미만',next:'puppy_allergy'},
+  ]},
+  puppy_allergy:{step:'STEP 4',title:'식이 알러지가 있나요?',sub:'특정 단백질에 민감하게 반응하는지 확인해 주세요',opts:[
+    {icon:'⚠️',label:'네, 알러지 있어요',desc:'특정 단백질 민감 반응',result:{label:'퍼피 · 알러지 고민',sub:'민감한 시기, 알러지 걱정 없는 건강한 한 끼',groups:[{label:'LID 단일단백 추천',cls:'gl-concern',items:[{f:'metdwaeji',r:1,note:'멧돼지 LID · 기호성 최강'},{f:'daegu',r:2,note:'대구 LID · EPA+DHA 풍부'}]}]}},
+    {icon:'✅',label:'아니오, 없어요',desc:'특별한 알러지 없음',result:{label:'퍼피 · 기초 영양 고민',sub:'든든하게 채워주는 성장기 필수 에너지',groups:[{label:'추천 사료',cls:'gl-main',items:[{f:'dak',r:1,note:'가장 무난하고 소화하기 쉬운 레시피'}]}]}},
+  ]},
+  adult_senior:{step:'STEP 2',title:'7세 이상인가요?',sub:'나이에 따라 추천 사료가 달라요',opts:[
+    {icon:'🐕',label:'아니오, 1~7세예요',desc:'어덜트',next:'adult_picky'},
+    {icon:'🎓',label:'네, 7세 이상이에요',desc:'시니어',next:'senior_concern'},
+  ]},
+  adult_picky:{step:'STEP 3',title:'밥투정이 심하거나 파미나가 처음인가요?',sub:'기호성이 가장 중요하다면 바로 추천해 드려요',opts:[
+    {icon:'🌀',label:'네, 밥을 잘 안 먹어요',desc:'입 짧음 · 파미나 처음',result:{label:'어덜트 · 기호성 고민',sub:'까다로운 입맛도 사로잡을 특별한 레시피',groups:[{label:'기호성 최강 추천',cls:'gl-main',items:[{f:'metdwaeji',r:1,note:'흔치 않은 멧돼지 단백질 · 기호성 최강'}]}]}},
+    {icon:'😋',label:'아니오, 잘 먹는 편이에요',desc:'고민별로 찾아드려요',next:'adult_concern'},
+  ]},
+  adult_concern:{step:'STEP 4',title:'특별한 고민이 있나요?',sub:'해당하는 고민을 선택해 주세요',opts:[
+    {icon:'✨',label:'없어요',desc:'균형 잡힌 사료를 원해요',result:{label:'어덜트 · 활력 유지 고민',sub:'매일매일 활기찬 일상을 위한 밸런스 식단',groups:[{label:'추천 사료',cls:'gl-main',items:[{f:'metdwaeji',r:1,note:'기호성·영양 균형 최고'},{f:'daegu',r:2,note:'피부·건강 관리'}]}]}},
+    {icon:'⚠️',label:'식이 알러지 · 피부',desc:'LID 단일단백 레시피',result:{label:'어덜트 · 피부/알러지 고민',sub:'눈에 띄게 깨끗해지는 피부',groups:[{label:'LID 추천',cls:'gl-concern',items:[{f:'cheong',r:1,note:'청어 LID · 육류 함량 최고'},{f:'daegu',r:2,note:'대구 LID · EPA+DHA · 피부 도움'},{f:'skin',r:2,note:'오리 LID · 피부·모질 특화'}]}]}},
+    {icon:'👁️',label:'눈물 자국',desc:'색소침착 개선',result:{label:'어덜트 · 눈물자국 고민',sub:'파미나 연구소의 눈물자국 완화 최신 레시피',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'white',r:1,note:'눈물자국 개선 실질 효과 · LID'}]}]}},
+    {icon:'💩',label:'소화기 건강',desc:'섬유질 풍부 레시피',result:{label:'어덜트 · 소화기 고민',sub:'장 건강이 면역력의 시작, 속 편한 데일리 케어',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'tp_pig',r:1,note:'과일·곡물 · 섬유질 풍부'},{f:'tp_sal',r:2,note:'섬유질+오메가3'}]}]}},
+    {icon:'⚖️',label:'체중 관리 · 다이어트',desc:'최저 칼로리 레시피',result:{label:'어덜트 · 체중관리 고민',sub:'맛있게 먹으면서 가볍게 유지하는 몸매 관리',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'newterd',r:1,note:'일반식 중 최저 칼로리(3,444kcal)'},{f:'skin',r:2,note:'체중&알러지 관리 병행'}]}]}},
+  ]},
+  senior_concern:{step:'STEP 3',title:'특별한 고민이 있나요?',sub:'시니어 아이에게 맞는 사료를 골라드려요',opts:[
+    {icon:'✨',label:'없어요',desc:'시니어 기본 건강 관리',result:{label:'시니어 · 노화 관리 고민',sub:'세월에도 변함없는 활력을 위한 맞춤 설계',groups:[{label:'시니어 건강 관리',cls:'gl-main',items:[{f:'guiri',r:1,note:'원시곡물+섬유질 최고 · 소화 저하 시니어 베스트'},{f:'dak',r:2,note:'곡물 알러지 시니어 · 소화 쉬운 닭고기'}]}]}},
+    {icon:'⚠️',label:'식이 알러지 · 피부',desc:'LID 단일단백 레시피',result:{label:'시니어 · 피부/알러지 고민',sub:'약해진 피부 장벽을 튼튼하게 지켜주는 영양',groups:[{label:'LID 추천',cls:'gl-concern',items:[{f:'cheong',r:1,note:'청어 LID · 육류 함량 최고'},{f:'daegu',r:2,note:'대구 LID · EPA+DHA · 피부 도움'},{f:'skin',r:2,note:'오리 LID · 피부·모질 특화'}]}]}},
+    {icon:'👁️',label:'눈물 자국',desc:'색소침착 개선',result:{label:'시니어 · 눈물자국 고민',sub:'눈가 주변을 깨끗하게 관리하는 식단',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'white',r:1,note:'눈물자국 개선 실질 효과 · LID'}]}]}},
+    {icon:'💩',label:'소화기 건강',desc:'섬유질 풍부 레시피',result:{label:'시니어 · 소화기 고민',sub:'소화 부담은 줄이고 흡수율은 높인 부드러운 한 끼',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'guiri',r:1,note:'파미나 중 섬유질 최고 · 시니어 베스트'},{f:'dak',r:2,note:'소화 쉬운 닭고기'},{f:'tp_pig',r:2,note:'과일·곡물 · 섬유질 풍부'},{f:'tp_sal',r:2,note:'섬유질+오메가3'}]}]}},
+    {icon:'⚖️',label:'체중 관리 · 다이어트',desc:'최저 칼로리 레시피',result:{label:'시니어 · 체중관리 고민',sub:'관절에 무리 가지 않도록, 건강한 체중 유지 솔루션',groups:[{label:'추천 사료',cls:'gl-concern',items:[{f:'newterd',r:1,note:'일반식 중 최저 칼로리(3,444kcal)'},{f:'skin',r:2,note:'체중&알러지 관리 병행'}]}]}},
+  ]},
+};
+
+let stack=[], cur='start';
+const TOTAL=4;
+
+function stepNum(id){
+  const puppy =['start','puppy_weight','puppy_age','puppy_allergy'];
+  const adult =['start','adult_senior','adult_picky','adult_concern'];
+  const senior=['start','adult_senior','senior_concern'];
+  const path=[...stack, id];
+  if(path.includes('puppy_weight')||path.includes('puppy_age')||path.includes('puppy_allergy'))
+    return puppy.indexOf(id)+1||1;
+  if(path.includes('senior_concern'))
+    return senior.indexOf(id)>=0 ? senior.indexOf(id)+1 : senior.length;
+  if(path.includes('adult_picky')||path.includes('adult_concern'))
+    return adult.indexOf(id)>=0 ? adult.indexOf(id)+1 : adult.length;
+  return ['start','adult_senior','adult_picky','adult_concern'].indexOf(id)+1||1;
+}
+
+function switchTab(t){
+  ['quiz','flow'].forEach(s=>{
+    document.getElementById('tab-'+s).classList.toggle('active',s===t);
+    document.getElementById('section-'+s).classList.toggle('hidden',s!==t);
+  });
+}
+function openLightbox(){
+  const img=document.querySelector('.flow-img-wrap img');
+  if(!img||img.style.display==='none') return;
+  document.getElementById('lb-img').src=img.src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+
+function render(){
+  const s=STEPS[cur];
+  document.getElementById('quiz').classList.remove('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('result').innerHTML='';
+  const prog=document.getElementById('prog');
+  prog.innerHTML='';
+  for(let i=0;i<TOTAL;i++){
+    const d=document.createElement('div');
+    d.className='ps'+(i<stepNum(cur)?' on':'');
+    prog.appendChild(d);
+  }
+  document.getElementById('quiz').innerHTML=`
+    <div class="qcard">
+      <div class="qstep">${s.step}</div>
+      <div class="qtitle">${s.title}</div>
+      ${s.sub?`<div class="qsub">${s.sub}</div>`:''}
+      <div class="opts">
+        ${s.opts.map((o,i)=>`
+          <button class="opt" onclick="choose(${i})">
+            <span class="oi">${o.icon||''}</span>
+            <div><div class="ol">${o.label}</div>${o.desc?`<div class="od">${o.desc}</div>`:''}</div>
+          </button>`).join('')}
+      </div>
+    </div>
+    ${stack.length?`<button class="btn btn-back" style="width:100%;margin-top:8px" onclick="goBack()">← 이전으로</button>`:''}`;
+}
+
+function choose(i){
+  const opt=STEPS[cur].opts[i];
+  stack.push(cur);
+  opt.result ? showResult(opt.result) : (cur=opt.next, render());
+}
+function goBack(){if(stack.length){cur=stack.pop();render();}}
+
+function showResult(res){
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('prog').innerHTML=Array(TOTAL).fill('<div class="ps on"></div>').join('');
+  const el=document.getElementById('result');
+  el.classList.remove('hidden');
+
+  if(res.notice){
+    el.innerHTML=`
+      <div class="notice-card">
+        <div class="ne">🐕</div>
+        <div class="nt">파미나 퍼피 라인은<br>15kg 이하 퍼피에게 적합해요</div>
+        <div class="ns">대형견 퍼피의 경우 파미나 퍼피 라인 급여가 권장되지 않아요.<br>생후 12개월 이후 어덜트 라인으로 시작해 주세요 😊</div>
+        <div class="action-row" style="margin-top:22px">
+          <button class="btn btn-back" onclick="goBack()">← 이전으로</button>
+          <button class="btn btn-reset" onclick="reset()">↺ 다시하기</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  let html=`
+    <div class="rhead">
+      <h2>${res.label}</h2>
+      <p>${res.sub||'우리 아이에게 딱 맞는 파미나 사료예요'}</p>
+    </div>`;
+
+  res.groups.forEach(g=>{
+    html+=`<div class="fgroup"><span class="glabel">${g.label}</span>`;
+    g.items.forEach(it=>{
+      const f=F[it.f];
+      const rbTxt=it.r===1?'1순위':it.r===2?'2순위':'';
+      const rbCls=it.r===1?'rb1':'rb2';
+      let badges='';
+      (f.badges||[]).forEach(b=>{
+        if(b==='lid')  badges+=`<span class="badge b-lid">${f.lidTxt||'LID'}</span>`;
+        if(b==='prem') badges+=`<span class="badge b-prem">${f.premTxt}</span>`;
+        if(b==='val')  badges+=`<span class="badge b-val">${f.valTxt}</span>`;
+        if(b==='kibo') badges+=`<span class="badge b-kibo">${f.kiboTxt}</span>`;
+      });
+      html+=`
+        <div class="fcard${it.r===1?' r1':''}">
+          <div class="fcard-img">
+            ${rbTxt?`<span class="rbadge ${rbCls}">${rbTxt}</span>`:''}
+            <img src="${f.img}" alt="${f.name}" loading="lazy" onerror="this.style.opacity='.25'">
+            ${it.note?`<div class="note-overlay">✓ ${it.note}</div>`:''}
+          </div>
+          <div class="fcard-body">
+            <div class="fname">${f.name.replace(/([[\]&·])/g,'<span class="sym">$1</span>')}</div>
+            ${f.pct?`<div class="fpct">${f.pct}</div>`:''}
+            <div class="fdesc">${f.desc}</div>
+            ${badges?`<div class="fbadges">${badges}</div>`:''}
+            <a href="${f.link}" target="_blank" rel="noopener" class="buy-btn">반해에서 더 자세히 보기</a>
+          </div>
+        </div>`;
+    });
+    html+='</div>';
+  });
+
+  html+=`
+    <div class="action-row" style="margin-top:6px;margin-bottom:20px;">
+      <button class="btn btn-back" onclick="goBack()">← 이전</button>
+      <button class="btn btn-reset" onclick="reset()">↺ 다시하기</button>
+    </div>`;
+
+  el.innerHTML=html;
+}
+
+function reset(){
+  stack=[];cur='start';
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
