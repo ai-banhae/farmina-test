@@ -9,11 +9,11 @@
 <meta property="og:url" content="https://farmina-test.aibanhae.com/">
 <meta property="og:title" content="반해 | 우리 아이 맞춤 파미나 찾기">
 <meta property="og:description" content="나이, 고민에 맞는 파미나를 찾아보세요!">
-<meta property="og:image" content="https://farmina-test.aibanhae.com/images/og-image.png">
+<meta property="og:image" content="https://farmina-test.aibanhae.com/images/og-image.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="반해 | 우리 아이 맞춤 파미나 찾기">
 <meta name="twitter:description" content="나이와 고민에 맞는 파미나 사료를 찾아드려요!">
-<meta name="twitter:image" content="https://farmina-test.aibanhae.com/images/og-image.png">
+<meta name="twitter:image" content="https://farmina-test.aibanhae.com/images/og-image.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=SUIT:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -260,7 +260,7 @@ body{
   <div class="top-header">
     <div class="brand">
       <div class="brand-logo">
-        <img src="./images/farmina-logo.png" alt="Farmina" onerror="this.style.display='none'">
+        <img src="./images/farmina-logo.webp" alt="Farmina" onerror="this.style.display='none'">
       </div>
       <div class="brand-text">
         <h1>Farmina N&D 사료 추천</h1>
@@ -285,7 +285,7 @@ body{
       <p>전체 추천 흐름을 한눈에 확인하세요.<br>이미지를 탭하면 크게 볼 수 있어요 🔍</p>
     </div>
     <div class="flow-img-wrap" onclick="openLightbox()">
-      <img src="./images/flowchart.png" alt="파미나 사료 선택 가이드"
+      <img src="./images/flowchart.webp" alt="파미나 사료 선택 가이드"
            onerror="this.style.display='none';document.getElementById('flow-ph').style.display='flex'">
       <div id="flow-ph" class="flow-img-placeholder" style="display:none">
         <div class="big">🗺️</div>
@@ -309,16 +309,16 @@ body{
 
 <script>
 const F = {
-  cheong:{name:'[오션] 청어&오렌지',pct:'동물성 단백질&지방 70% 이상',desc:'파미나 전 라인 중 동물성 단백질·지방 함량 최고(70% 이상).<br>청어 단일 단백질 LID 레시피로 알러지 걱정 없이 급여 가능.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/ocean-herring.png',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
-  daegu:{name:'[오션] 대구&오렌지',pct:'동물성 단백질&지방 60% 이상',desc:'파미나 중 EPA+DHA 함량 가장 높아 피부·모질 재생에 실질적 도움.<br>대구 단일 단백질 LID 레시피. 피부 트러블·알러지 있는 강아지에게 추천.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/ocean-cod.png',link:'https://mkt.shopping.naver.com/link/6847978e6e038273ac2dcfc0?nt_source=farmina.test&nt_medium=result'},
-  metdwaeji:{name:'[펌프킨] 멧돼지&사과',pct:'동물성 단백질&지방 60% 이상',desc:'흔히 접하지 않는 멧돼지 단백질 특유의 향으로 기호성 최강.<br>밥을 잘 안 먹는 강아지에게 효과적. 멧돼지 LID 레시피.',badges:['lid','kibo'],lidTxt:'LID 🔍',kiboTxt:'기호성 🤍',img:'./images/pumkin-boar.png',link:'https://mkt.shopping.naver.com/link/6847978e9afe2543220139da?nt_source=farmina.test&nt_medium=result'},
-  dak:{name:'[펌프킨] 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'파미나 라인 중 가장 무난하고 소화하기 쉬운 레시피.<br>특별한 고민 없이 균형 잡힌 영양을 원하는 강아지에게 추천. 파미나 입문용으로도 적합.',badges:[],img:'./images/pumkin-chicken.png',link:'https://mkt.shopping.naver.com/link/6847978e9a061e3f9ceff30a?nt_source=farmina.test&nt_medium=result'},
-  guiri:{name:'[엔세스트럴] 원시곡물 귀리 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'원시곡물 귀리·스펠트 함유로 파미나 중 섬유질 함량 최고.<br>소화 능력이 저하된 시니어 강아지에게 특히 적합. 가성비도 좋아 장기 급여에 부담 없음.',badges:['lid','val'],lidTxt:'LID 🔍',valTxt:'가성비 💰',img:'./images/grain-chicken.png',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
-  skin:{name:'[퀴노아] 스킨&코트 오리',pct:'동물성 단백질&지방 60% 이상',desc:'오리 단일 단백질 LID 레시피로 피부·모질 건강에 특화.<br>체중 관리와 알러지 케어를 동시에 원하는 강아지에게도 적합.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/quinoa-duck.png',link:'https://mkt.shopping.naver.com/link/69a69652c8cd214c071e5ceb?nt_source=farmina.test&nt_medium=result'},
-  white:{name:'[화이트] 청어&스피룰리나',pct:'',desc:'파미나 FVR 연구소의 최신 레시피. 눈물자국 색소침착 개선에 실질적 효과.<br>청어 단일 단백질 LID 레시피로 민감한 피부에도 안심 급여 가능.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/white-seabass.jpg',link:'https://mkt.shopping.naver.com/link/68410e5e8569a81f0d6d8a90?nt_source=farmina.test&nt_medium=result'},
-  tp_pig:{name:'[트로피컬] 돼지&열대과일',pct:'',desc:'열대과일·곡물로 섬유질이 풍부해 장 건강 관리에 도움.<br>소화 트러블이 잦은 강아지에게 추천. 합리적인 가격으로 부담 없이 급여 가능.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-pig.png',link:'https://mkt.shopping.naver.com/link/68410e5fe625370ec15b2dd1?nt_source=farmina.test&nt_medium=result'},
-  tp_sal:{name:'[트로피컬] 연어&열대과일',pct:'',desc:'섬유질과 오메가3가 풍부해 소화 건강과 피부 케어를 동시에.<br>장 트러블과 피부 고민을 함께 개선하고 싶을 때 추천. 가성비 좋은 실속 선택.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-salmon.jpg',link:'https://mkt.shopping.naver.com/link/68410e5fb7c8c573b305e5c2?nt_source=farmina.test&nt_medium=result'},
-  newterd:{name:'[퀴노아] 뉴터드 오리',pct:'동물성 단백질&지방 60% 이상',desc:'일반식 중 최저 칼로리(3,444kcal/kg)로 중성화 후 체중 관리에 최적.<br>오리 LID 레시피로 알러지 걱정 없이 급여 가능. 다이어트 중에도 맛있게.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/quinoa-neutered.jpg',link:'https://mkt.shopping.naver.com/link/68410e5fd20fbf73c9d5c930?nt_source=farmina.test&nt_medium=result'},
+  cheong:{name:'[오션] 청어&오렌지',pct:'동물성 단백질&지방 70% 이상',desc:'파미나 전 라인 중 동물성 단백질·지방 함량 최고(70% 이상).<br>청어 단일 단백질 LID 레시피로 알러지 걱정 없이 급여 가능.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/ocean-herring.webp',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
+  daegu:{name:'[오션] 대구&오렌지',pct:'동물성 단백질&지방 60% 이상',desc:'파미나 중 EPA+DHA 함량 가장 높아 피부·모질 재생에 실질적 도움.<br>대구 단일 단백질 LID 레시피. 피부 트러블·알러지 있는 강아지에게 추천.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/ocean-cod.webp',link:'https://mkt.shopping.naver.com/link/6847978e6e038273ac2dcfc0?nt_source=farmina.test&nt_medium=result'},
+  metdwaeji:{name:'[펌프킨] 멧돼지&사과',pct:'동물성 단백질&지방 60% 이상',desc:'흔히 접하지 않는 멧돼지 단백질 특유의 향으로 기호성 최강.<br>밥을 잘 안 먹는 강아지에게 효과적. 멧돼지 LID 레시피.',badges:['lid','kibo'],lidTxt:'LID 🔍',kiboTxt:'기호성 🤍',img:'./images/pumkin-boar.webp',link:'https://mkt.shopping.naver.com/link/6847978e9afe2543220139da?nt_source=farmina.test&nt_medium=result'},
+  dak:{name:'[펌프킨] 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'파미나 라인 중 가장 무난하고 소화하기 쉬운 레시피.<br>특별한 고민 없이 균형 잡힌 영양을 원하는 강아지에게 추천. 파미나 입문용으로도 적합.',badges:[],img:'./images/pumkin-chicken.webp',link:'https://mkt.shopping.naver.com/link/6847978e9a061e3f9ceff30a?nt_source=farmina.test&nt_medium=result'},
+  guiri:{name:'[엔세스트럴] 원시곡물 귀리 닭고기&석류',pct:'동물성 단백질&지방 60% 이상',desc:'원시곡물 귀리·스펠트 함유로 파미나 중 섬유질 함량 최고.<br>소화 능력이 저하된 시니어 강아지에게 특히 적합. 가성비도 좋아 장기 급여에 부담 없음.',badges:['lid','val'],lidTxt:'LID 🔍',valTxt:'가성비 💰',img:'./images/grain-chicken.webp',link:'https://mkt.shopping.naver.com/link/6847978ed20fbf73c9d5e8ef?nt_source=farmina.test&nt_medium=result'},
+  skin:{name:'[퀴노아] 스킨&코트 오리',pct:'동물성 단백질&지방 60% 이상',desc:'오리 단일 단백질 LID 레시피로 피부·모질 건강에 특화.<br>체중 관리와 알러지 케어를 동시에 원하는 강아지에게도 적합.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/quinoa-duck.webp',link:'https://mkt.shopping.naver.com/link/69a69652c8cd214c071e5ceb?nt_source=farmina.test&nt_medium=result'},
+  white:{name:'[화이트] 청어&스피룰리나',pct:'',desc:'파미나 FVR 연구소의 최신 레시피. 눈물자국 색소침착 개선에 실질적 효과.<br>청어 단일 단백질 LID 레시피로 민감한 피부에도 안심 급여 가능.',badges:['lid'],lidTxt:'LID 🔍',img:'./images/white-seabass.webp',link:'https://mkt.shopping.naver.com/link/68410e5e8569a81f0d6d8a90?nt_source=farmina.test&nt_medium=result'},
+  tp_pig:{name:'[트로피컬] 돼지&열대과일',pct:'',desc:'열대과일·곡물로 섬유질이 풍부해 장 건강 관리에 도움.<br>소화 트러블이 잦은 강아지에게 추천. 합리적인 가격으로 부담 없이 급여 가능.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-pig.webp',link:'https://mkt.shopping.naver.com/link/68410e5fe625370ec15b2dd1?nt_source=farmina.test&nt_medium=result'},
+  tp_sal:{name:'[트로피컬] 연어&열대과일',pct:'',desc:'섬유질과 오메가3가 풍부해 소화 건강과 피부 케어를 동시에.<br>장 트러블과 피부 고민을 함께 개선하고 싶을 때 추천. 가성비 좋은 실속 선택.',badges:['val'],valTxt:'가성비 💰',img:'./images/tropical-salmon.webp',link:'https://mkt.shopping.naver.com/link/68410e5fb7c8c573b305e5c2?nt_source=farmina.test&nt_medium=result'},
+  newterd:{name:'[퀴노아] 뉴터드 오리',pct:'동물성 단백질&지방 60% 이상',desc:'일반식 중 최저 칼로리(3,444kcal/kg)로 중성화 후 체중 관리에 최적.<br>오리 LID 레시피로 알러지 걱정 없이 급여 가능. 다이어트 중에도 맛있게.',badges:['lid','prem'],lidTxt:'LID 🔍',premTxt:'프리미엄 👑',img:'./images/quinoa-neutered.webp',link:'https://mkt.shopping.naver.com/link/68410e5fd20fbf73c9d5c930?nt_source=farmina.test&nt_medium=result'},
 };
 
 const STEPS = {
