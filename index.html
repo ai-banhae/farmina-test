@@ -14,6 +14,13 @@
 <meta name="twitter:title" content="반해 | 우리 아이 맞춤 파미나 찾기">
 <meta name="twitter:description" content="나이와 고민에 맞는 파미나 사료를 찾아드려요!">
 <meta name="twitter:image" content="https://farmina-test.aibanhae.com/images/og-image.webp">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PMJXS42C');</script>
+<!-- End Google Tag Manager -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=SUIT:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -255,6 +262,10 @@ body{
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMJXS42C"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="frame">
 
   <div class="top-header">
@@ -294,7 +305,7 @@ body{
       </div>
       <div class="flow-zoom-hint">🔍 탭하여 크게 보기</div>
     </div>
-    <a href="https://mkt.shopping.naver.com/link/683d586f881c5b310ec4a740?nt_source=farmina.test&nt_medium=guide" target="_blank" rel="noopener" class="buy-btn">반해에서 보기 🛒</a>
+    <a href="https://mkt.shopping.naver.com/link/683d586f881c5b310ec4a740?nt_source=farmina.test&nt_medium=guide" target="_blank" rel="noopener" class="buy-btn" onclick="dlPush('button_click',{button_key:'buy_cta',page_name:'farmina_guide',section_key:'flow'})">반해에서 보기 🛒</a>
   </div>
 
 <footer class="site-footer">
@@ -379,7 +390,13 @@ function stepNum(id){
   return ['start','adult_senior','adult_picky','adult_concern'].indexOf(id)+1||1;
 }
 
+function dlPush(event, params){
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(Object.assign({event: event, page_name: 'farmina'}, params));
+}
+
 function switchTab(t){
+  dlPush('button_click', {button_key: 'tab_' + t});
   ['quiz','flow'].forEach(s=>{
     document.getElementById('tab-'+s).classList.toggle('active',s===t);
     document.getElementById('section-'+s).classList.toggle('hidden',s!==t);
@@ -395,6 +412,7 @@ function closeLightbox(){document.getElementById('lightbox').classList.remove('o
 
 function render(){
   const s=STEPS[cur];
+  dlPush('section_view', {section_key: cur});
   document.getElementById('quiz').classList.remove('hidden');
   document.getElementById('result').classList.add('hidden');
   document.getElementById('result').innerHTML='';
@@ -423,16 +441,21 @@ function render(){
 
 function choose(i){
   const opt=STEPS[cur].opts[i];
+  dlPush('button_click', {button_key: opt.label, section_key: cur});
   stack.push(cur);
   opt.result ? showResult(opt.result) : (cur=opt.next, render());
 }
-function goBack(){if(stack.length){cur=stack.pop();render();}}
+function goBack(){
+  dlPush('button_click', {button_key: 'back', section_key: cur});
+  if(stack.length){cur=stack.pop();render();}
+}
 
 function showResult(res){
   document.getElementById('quiz').classList.add('hidden');
   document.getElementById('prog').innerHTML=Array(TOTAL).fill('<div class="ps on"></div>').join('');
   const el=document.getElementById('result');
   el.classList.remove('hidden');
+  dlPush('section_view', {section_key: 'quiz_result', page_name: res.label||'notice'});
 
   if(res.notice){
     el.innerHTML=`
@@ -479,7 +502,7 @@ function showResult(res){
             ${f.pct?`<div class="fpct">${f.pct}</div>`:''}
             <div class="fdesc">${f.desc}</div>
             ${badges?`<div class="fbadges">${badges}</div>`:''}
-            <a href="${f.link}" target="_blank" rel="noopener" class="buy-btn">반해에서 더 자세히 보기 🛒</a>
+            <a href="${f.link}" target="_blank" rel="noopener" class="buy-btn" onclick="dlPush('button_click',{button_key:'buy_cta',page_name:'${f.name}',section_key:'quiz_result'})">반해에서 더 자세히 보기 🛒</a>
           </div>
         </div>`;
     });
@@ -496,6 +519,7 @@ function showResult(res){
 }
 
 function reset(){
+  dlPush('button_click', {button_key: 'reset', section_key: 'quiz_result'});
   stack=[];cur='start';
   document.getElementById('result').classList.add('hidden');
   document.getElementById('quiz').classList.remove('hidden');
